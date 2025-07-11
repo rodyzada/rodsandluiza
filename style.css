@@ -1,0 +1,33 @@
+body {
+    font-family: 'Quicksand', sans-serif; /* Fonte para textos */
+}
+
+h1, h2, h3, .time-counter, .music-title, .future-title, 
+.message-title, .section-title, .love-title {
+    font-family: 'Poppins', sans-serif; /* Fonte para títulos */
+    font-weight: 600;
+}
+
+.subtitle, .future-content, .message-content, .love-item {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 500;
+}
+
+/* Ajustes opcionais de tamanho (se quiser manter): */
+h1 {
+    font-size: 3.5rem;
+}
+
+h2, .love-title, .future-title, .message-title, .section-title {
+    font-size: 2.2rem;
+}
+
+.subtitle {
+    font-size: 1.4rem;
+}
+
+.future-content, .message-content, .love-item {
+    font-size: 1.1rem;
+    line-height: 1.7;
+}
+

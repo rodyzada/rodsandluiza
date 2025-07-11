@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz do Nosso Relacionamento</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --roxo-escuro: #4B0082;
+            --roxo-medio: #6A0DAD;
+            --roxo-claro: #B399D4;
+            --lilás: #E6E6FA;
+            --destaque: #FFD700;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: #111;
+            color: white;
+            padding: 2rem;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Poppins', sans-serif;
+            color: var(--destaque);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .quiz-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .question {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+        }
+
+        .question-text {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--lilás);
+        }
+
+        .options {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .option {
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .option:hover {
+            background: rgba(255, 215, 0, 0.2);
+            border-color: var(--destaque);
+        }
+
+        .option.selected {
+            background: rgba(106, 13, 173, 0.5);
+            border-color: var(--roxo-medio);
+        }
+
+        .option.correct {
+            background: rgba(0, 128, 0, 0.5);
+            border-color: green;
+        }
+
+        .option.incorrect {
+            background: rgba(255, 0, 0, 0.3);
+            border-color: red;
+        }
+
+        .submit-btn {
+            display: block;
+            margin: 2rem auto 0;
+            padding: 1rem 2rem;
+            background: rgba(255, 215, 0, 0.3);
+            color: white;
+            border: 1px solid var(--destaque);
+            border-radius: 50px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background: rgba(255, 215, 0, 0.5);
+            transform: translateY(-3px);
+        }
+
+        .result-container {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 15px;
+            text-align: center;
+            display: none;
+        }
+
+        .score {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--destaque);
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 2rem;
+            padding: 0.8rem 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 215, 0, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .quiz-container {
+                padding: 1.5rem;
+            }
+            
+            .question {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1>Quiz do Nosso Relacionamento <span style="color:#ff4d4d">💘</span></h1>
+        
+        <div id="quiz-content">
+            <!-- Pergunta 1 -->
+            <div class="question" data-correct="d">
+                <div class="question-text">1. Que dia a gente começou a namorar?</div>
+                <div class="options">
+                    <div class="option" data-value="a">a) 05/07/2024</div>
+                    <div class="option" data-value="b">b) 12/07/2023</div>
+                    <div class="option" data-value="c">c) 11/07/2024</div>
+                    <div class="option" data-value="d">d) 12/07/2024</div>
+                </div>
+            </div>
+            
+            <!-- Pergunta 2 -->
+            <div class="question" data-correct="a">
+                <div class="question-text">2. Onde foi o nosso primeiro beijo?</div>
+                <div class="options">
+                    <div class="option" data-value="a">a) Banheiro da sede do clube</div>
+                    <div class="option" data-value="b">b) Cachoeira do clube</div>
+                    <div class="option" data-value="c">c) BYD Azul</div>
+                    <div class="option" data-value="d">d) Sofá da minha casa</div>
+                </div>
+            </div>
+            
+            <!-- Pergunta 3 -->
+            <div class="question" data-correct="b">
+                <div class="question-text">3. Quando foi o nosso primeiro beijo?</div>
+                <div class="options">
+                    <div class="option" data-value="a">a) 01/05/2024</div>
+                    <div class="option" data-value="b">b) 03/05/2024</div>
+                    <div class="option" data-value="c">c) 13/05/2024</div>
+                    <div class="option" data-value="d">d) 15/05/2024</div>
+                </div>
+            </div>
+            
+            <!-- Pergunta 4 -->
+            <div class="question" data-correct="a">
+                <div class="question-text">4. Qual foi o primeiro presente que eu te dei?</div>
+                <div class="options">
+                    <div class="option" data-value="a">a) Gola</div>
+                    <div class="option" data-value="b">b) Perfume</div>
+                    <div class="option" data-value="c">c) Livro</div>
+                    <div class="option" data-value="d">d) Pulseira</div>
+                </div>
+            </div>
+            
+            <!-- Pergunta 5 -->
+            <div class="question" data-correct="b">
+                <div class="question-text">5. Qual foi a última coisa que fizemos antes de namorarmos?</div>
+                <div class="options">
+                    <div class="option" data-value="a">a) Jogamos tênis e pulamos na piscina</div>
+                    <div class="option" data-value="b">b) Crossfit com a Thay e "Piratas do Caribe" no sofá</div>
+                    <div class="option" data-value="c">c) Fizemos academia e jantamos juntos</div>
+                    <div class="option" data-value="d">d) Almoçamos jantar e jantamos almoço</div>
+                </div>
+            </div>
+            
+            <!-- Pergunta 6 -->
+            <div class="question" data-correct="a">
+                <div class="question-text">6. Qual foi a nossa primeira saída juntos?</div>
+                <div class="options">
+                    <div class="option" data-value="a">a) Parque da festa junina de Votorantim</div>
+                    <div class="option" data-value="b">b) Parque da festa julina de Sorocaba</div>
+                    <div class="option" data-value="c">c) Parque do Hopi Hari</div>
+                    <div class="option" data-value="d">d) Parque da Disney</div>
+                </div>
+            </div>
+            
+            <!-- Pergunta 7 -->
+            <div class="question" data-correct="c">
+                <div class="question-text">7. O que fizemos no dia do nosso primeiro beijo?</div>
+                <div class="options">
+                    <div class="option" data-value="a">a) Assistimos um show</div>
+                    <div class="option" data-value="b">b) Fomos ao cinema</div>
+                    <div class="option" data-value="c">c) Jogamos tênis</div>
+                    <div class="option" data-value="d">d) Jantamos fora</div>
+                </div>
+            </div>
+            
+            <!-- Pergunta 8 -->
+            <div class="question" data-correct="d">
+                <div class="question-text">8. Qual foi a viagem mais especial que a gente fez juntos?</div>
+                <div class="options">
+                    <div class="option" data-value="a">a) Cananeia</div>
+                    <div class="option" data-value="b">b) Ilha Comprida</div>
+                    <div class="option" data-value="c">c) Peruíbe</div>
+                    <div class="option" data-value="d">d) Todas</div>
+                </div>
+            </div>
+            
+            <!-- Pergunta 9 -->
+            <div class="question" data-correct="b">
+                <div class="question-text">9. Onde a gente tava quando te pedi em namoro?</div>
+                <div class="options">
+                    <div class="option" data-value="a">a) No parque</div>
+                    <div class="option" data-value="b">b) No sofá da minha casa</div>
+                    <div class="option" data-value="c">c) No seu quarto</div>
+                    <div class="option" data-value="d">d) No restaurante</div>
+                </div>
+            </div>
+            
+            <!-- Pergunta 10 -->
+            <div class="question" data-correct="b">
+                <div class="question-text">10. Qual foi a primeira vez que a gente disse "eu te amo"?</div>
+                <div class="options">
+                    <div class="option" data-value="a">a) 30/07/2024</div>
+                    <div class="option" data-value="b">b) 02/08/2024</div>
+                    <div class="option" data-value="c">c) 10/08/2024</div>
+                    <div class="option" data-value="d">d) 15/08/2024</div>
+                </div>
+            </div>
+            
+            <button class="submit-btn" id="submit-btn">Verificar Respostas</button>
+        </div>
+        
+        <div class="result-container" id="result-container">
+            <h2>Resultado do Quiz</h2>
+            <div class="score" id="score">Você acertou X de 10 perguntas!</div>
+            <p id="result-message"></p>
+            <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Voltar para a página principal</a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const options = document.querySelectorAll('.option');
+            const submitBtn = document.getElementById('submit-btn');
+            const resultContainer = document.getElementById('result-container');
+            const scoreElement = document.getElementById('score');
+            const resultMessage = document.getElementById('result-message');
+            
+            // Selecionar respostas
+            options.forEach(option => {
+                option.addEventListener('click', function() {
+                    // Remove seleção de outras opções na mesma pergunta
+                    const question = this.closest('.question');
+                    question.querySelectorAll('.option').forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    
+                    // Seleciona a opção clicada
+                    this.classList.add('selected');
+                    this.setAttribute('data-selected', 'true');
+                });
+            });
+            
+            // Verificar respostas
+            submitBtn.addEventListener('click', function() {
+                let score = 0;
+                const questions = document.querySelectorAll('.question');
+                
+                questions.forEach(question => {
+                    const correctAnswer = question.getAttribute('data-correct');
+                    const selectedOption = question.querySelector('.option.selected');
+                    
+                    if (selectedOption) {
+                        const userAnswer = selectedOption.getAttribute('data-value');
+                        
+                        // Marca as respostas corretas/incorretas
+                        question.querySelectorAll('.option').forEach(opt => {
+                            opt.classList.remove('correct', 'incorrect');
+                            if (opt.getAttribute('data-value') === correctAnswer) {
+                                opt.classList.add('correct');
+                            } else if (opt === selectedOption && userAnswer !== correctAnswer) {
+                                opt.classList.add('incorrect');
+                            }
+                        });
+                        
+                        if (userAnswer === correctAnswer) {
+                            score++;
+                        }
+                    }
+                });
+                
+                // Mostra o resultado
+                scoreElement.textContent = `Você acertou ${score} de 10 perguntas!`;
+                
+                // Mensagem personalizada
+                if (score === 10) {
+                    resultMessage.innerHTML = 'Você é expert no nosso relacionamento! 😍<br>Sabia tudo sobre nós!';
+                } else if (score >= 7) {
+                    resultMessage.innerHTML = 'Você conhece bem o nosso amor! ❤️<br>Mas pode melhorar ainda mais!';
+                } else if (score >= 4) {
+                    resultMessage.innerHTML = 'Você lembra de algumas coisas! 💭<br>Vamos relembrar mais momentos juntos!';
+                } else {
+                    resultMessage.innerHTML = 'Precisamos criar mais memórias! 💔<br>Que tal um date para relembrar?';
+                }
+                
+                // Mostra o container de resultados
+                resultContainer.style.display = 'block';
+                
+                // Rola a página para o resultado
+                resultContainer.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>
