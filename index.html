@@ -518,7 +518,7 @@
     <!-- Vídeo de fundo em loop -->
     <div class="video-background">
         <video autoplay muted loop playsinline id="bg-video">
-            <source src="eu_momo_virada.mp4" type="video/mp4">
+            <source src="eu_e_momo_na_minha_formatura2.mp4.mp4" type="video/mp4">
             Seu navegador não suporta vídeos HTML5.
         </video>
         <div class="overlay"></div>
@@ -676,61 +676,40 @@
 
         // Contador de tempo juntos CORRIGIDO (funciona perfeitamente)
         function updateTimeTogether() {
-            const startDate = new Date('2024-07-12T22:00:00');
-            const now = new Date();
-            
-            // Calcula anos
-            let years = now.getFullYear() - startDate.getFullYear();
-            
-            // Calcula meses
-            let months = now.getMonth() - startDate.getMonth();
-            if (months < 0) {
-                years--;
-                months += 12;
-            }
-            
-            // Calcula dias
-            let days = now.getDate() - startDate.getDate();
-            if (days < 0) {
-                months--;
-                // Pega o último dia do mês anterior
-                const lastDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 0).getDate();
-                days += lastDayOfMonth;
-            }
-            
-            // Ajuste final se meses ficou negativo
-            if (months < 0) {
-                years--;
-                months += 12;
-            }
-            
-            // Calcula horas, minutos e segundos
-            let hours = now.getHours() - startDate.getHours();
-            let minutes = now.getMinutes() - startDate.getMinutes();
-            let seconds = now.getSeconds() - startDate.getSeconds();
-            
-            // Ajusta valores negativos
-            if (seconds < 0) {
-                minutes--;
-                seconds += 60;
-            }
-            if (minutes < 0) {
-                hours--;
-                minutes += 60;
-            }
-            if (hours < 0) {
-                days--;
-                hours += 24;
-            }
-            
-            // Atualiza a exibição
-            document.getElementById('years').textContent = years;
-            document.getElementById('months').textContent = months;
-            document.getElementById('days').textContent = days;
-            document.getElementById('hours').textContent = hours;
-            document.getElementById('minutes').textContent = minutes;
-            document.getElementById('seconds').textContent = seconds;
-        }
+    const startDate = new Date('2024-07-12T21:17:00');
+    const now = new Date();
+
+    // Cálculo ABSOLUTAMENTE PRECISO (sem aproximações)
+    let years = now.getFullYear() - startDate.getFullYear();
+    let months = now.getMonth() - startDate.getMonth();
+    let days = now.getDate() - startDate.getDate();
+    let hours = now.getHours() - startDate.getHours();
+    let minutes = now.getMinutes() - startDate.getMinutes();
+    let seconds = now.getSeconds() - startDate.getSeconds();
+
+    // Ajuste de valores negativos (cálculo REAL do calendário)
+    if (seconds < 0) { minutes--; seconds += 60; }
+    if (minutes < 0) { hours--; minutes += 60; }
+    if (hours < 0) { days--; hours += 24; }
+    if (days < 0) {
+        months--;
+        // Pega o último dia do mês ANTERIOR
+        const lastDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 0).getDate();
+        days += lastDayOfMonth;
+    }
+    if (months < 0) {
+        years--;
+        months += 12;
+    }
+
+    // Atualiza a exibição
+    document.getElementById('years').textContent = years;
+    document.getElementById('months').textContent = months;
+    document.getElementById('days').textContent = days;
+    document.getElementById('hours').textContent = hours;
+    document.getElementById('minutes').textContent = minutes;
+    document.getElementById('seconds').textContent = seconds;
+}
         
         setInterval(updateTimeTogether, 1000);
         updateTimeTogether();
