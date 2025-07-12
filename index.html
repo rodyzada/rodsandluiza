@@ -518,7 +518,7 @@
     <!-- Vídeo de fundo em loop -->
     <div class="video-background">
         <video autoplay muted loop playsinline id="bg-video">
-            <source src="eu_e_momo_na_minha_formatura2.mp4.mp4" type="video/mp4">
+            <source src="eu_momo_virada.mp4" type="video/mp4">
             Seu navegador não suporta vídeos HTML5.
         </video>
         <div class="overlay"></div>
@@ -560,7 +560,7 @@
             </div>
         </div>
 
-        <!-- Player de Música no topo -->
+        <!-- Player de Música no topo (MODIFICADO PARA TER MÚLTIPLAS MÚSICAS) -->
         <div class="top-music-player">
             <h3 class="music-title">musiquinha chaveta pra vc ouvir enquanto vê o site (perdão amor eu amo essa música)</h3>
             
@@ -579,8 +579,9 @@
             </div>
             
             <audio id="audio">
-                <source src="thousand_years.mp3" type="audio/mpeg">
-                Seu navegador não suporta o elemento de áudio.
+                <source src="thousand_years.mp3" type="audio/mpeg" data-name="musiquinha chaveta pra vc ouvir enquanto vê o site (perdão amor eu amo essa música)">
+                <source src="luan-te_vivo.mp3" type="audio/mpeg" data-name="outra musiquinha chaveta (te vivo amor)">
+                <source src="matue-anos_luz.mp3" type="audio/mpeg" data-name="agora a mais chaveta de todas (anos luz)">
             </audio>
         </div>
 
@@ -676,51 +677,77 @@
 
         // Contador de tempo juntos CORRIGIDO (funciona perfeitamente)
         function updateTimeTogether() {
-    const startDate = new Date('2024-07-12T21:17:00');
-    const now = new Date();
+            const startDate = new Date('2024-07-12T21:17:00');
+            const now = new Date();
 
-    // Cálculo ABSOLUTAMENTE PRECISO (sem aproximações)
-    let years = now.getFullYear() - startDate.getFullYear();
-    let months = now.getMonth() - startDate.getMonth();
-    let days = now.getDate() - startDate.getDate();
-    let hours = now.getHours() - startDate.getHours();
-    let minutes = now.getMinutes() - startDate.getMinutes();
-    let seconds = now.getSeconds() - startDate.getSeconds();
+            // Cálculo ABSOLUTAMENTE PRECISO (sem aproximações)
+            let years = now.getFullYear() - startDate.getFullYear();
+            let months = now.getMonth() - startDate.getMonth();
+            let days = now.getDate() - startDate.getDate();
+            let hours = now.getHours() - startDate.getHours();
+            let minutes = now.getMinutes() - startDate.getMinutes();
+            let seconds = now.getSeconds() - startDate.getSeconds();
 
-    // Ajuste de valores negativos (cálculo REAL do calendário)
-    if (seconds < 0) { minutes--; seconds += 60; }
-    if (minutes < 0) { hours--; minutes += 60; }
-    if (hours < 0) { days--; hours += 24; }
-    if (days < 0) {
-        months--;
-        // Pega o último dia do mês ANTERIOR
-        const lastDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 0).getDate();
-        days += lastDayOfMonth;
-    }
-    if (months < 0) {
-        years--;
-        months += 12;
-    }
+            // Ajuste de valores negativos (cálculo REAL do calendário)
+            if (seconds < 0) { minutes--; seconds += 60; }
+            if (minutes < 0) { hours--; minutes += 60; }
+            if (hours < 0) { days--; hours += 24; }
+            if (days < 0) {
+                months--;
+                // Pega o último dia do mês ANTERIOR
+                const lastDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 0).getDate();
+                days += lastDayOfMonth;
+            }
+            if (months < 0) {
+                years--;
+                months += 12;
+            }
 
-    // Atualiza a exibição
-    document.getElementById('years').textContent = years;
-    document.getElementById('months').textContent = months;
-    document.getElementById('days').textContent = days;
-    document.getElementById('hours').textContent = hours;
-    document.getElementById('minutes').textContent = minutes;
-    document.getElementById('seconds').textContent = seconds;
-}
+            // Atualiza a exibição
+            document.getElementById('years').textContent = years;
+            document.getElementById('months').textContent = months;
+            document.getElementById('days').textContent = days;
+            document.getElementById('hours').textContent = hours;
+            document.getElementById('minutes').textContent = minutes;
+            document.getElementById('seconds').textContent = seconds;
+        }
         
         setInterval(updateTimeTogether, 1000);
         updateTimeTogether();
 
-        // Player de música
+        // Player de música melhorado (COM MÚLTIPLAS MÚSICAS)
         const audio = document.getElementById('audio');
         const playBtn = document.getElementById('play-btn');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const musicTitle = document.querySelector('.music-title');
         const progress = document.getElementById('progress');
         const currentTimeEl = document.getElementById('current-time');
         const durationEl = document.getElementById('duration');
-        
+        const sources = audio.querySelectorAll('source');
+        let currentTrack = 0;
+
+        // Lista de músicas (atualiza automaticamente)
+        const tracks = Array.from(sources).map((source, index) => ({
+            src: source.src,
+            name: source.getAttribute('data-name') || `Música ${index + 1}`
+        }));
+
+        // Atualiza o título da música
+        function updateTrackInfo() {
+            musicTitle.textContent = tracks[currentTrack].name;
+        }
+
+        // Troca de música
+        function loadTrack(index) {
+            currentTrack = (index + tracks.length) % tracks.length;
+            audio.src = tracks[currentTrack].src;
+            audio.load();
+            if (!audio.paused) audio.play();
+            updateTrackInfo();
+        }
+
+        // Event listeners
         playBtn.addEventListener('click', () => {
             if (audio.paused) {
                 audio.play();
@@ -730,7 +757,10 @@
                 playBtn.innerHTML = '▶';
             }
         });
-        
+
+        prevBtn.addEventListener('click', () => loadTrack(currentTrack - 1));
+        nextBtn.addEventListener('click', () => loadTrack(currentTrack + 1));
+
         audio.addEventListener('timeupdate', () => {
             const progressPercent = (audio.currentTime / audio.duration) * 100;
             progress.style.width = `${progressPercent}%`;
@@ -754,28 +784,11 @@
         });
         
         audio.addEventListener('ended', () => {
-            playBtn.innerHTML = '▶';
-            progress.style.width = '0%';
-            currentTimeEl.textContent = '0:00';
+            loadTrack(currentTrack + 1);
         });
 
-        // Mensagem de voz
-        const voiceBtn = document.getElementById('voice-btn');
-        const voiceAudio = document.getElementById('voice-audio');
-        
-        voiceBtn.addEventListener('click', () => {
-            if (voiceAudio.paused) {
-                voiceAudio.play();
-                voiceBtn.innerHTML = '<i class="fas fa-pause"></i> Ouvindo...';
-            } else {
-                voiceAudio.pause();
-                voiceBtn.innerHTML = '<i class="fas fa-heart"></i> Ouvir algo especial';
-            }
-        });
-        
-        voiceAudio.addEventListener('ended', () => {
-            voiceBtn.innerHTML = '<i class="fas fa-heart"></i> Ouvir algo especial';
-        });
+        // Inicia
+        updateTrackInfo();
 
         // Garantir que o vídeo toque em dispositivos móveis
         document.addEventListener('DOMContentLoaded', function() {
