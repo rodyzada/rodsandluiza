@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nossos Momentos Especiais - Ano 2</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --roxo-escuro: #280442;
+            --roxo-medio: #6A0DAD;
+            --roxo-claro: #8d6eb4;
+            --lilás: #E6E6FA;
+            --destaque: #cfbcdb;
+            --sombra: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: linear-gradient(135deg, var(--roxo-escuro), var(--roxo-medio));
+            color: white;
+            line-height: 1.6;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Corações flutuantes */
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .heart {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23B399D4" opacity="0.6"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>') no-repeat center center;
+            opacity: 0;
+            animation: float 15s linear infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg) scale(0.5);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg) scale(1);
+                opacity: 0;
+            }
+        }
+
+        header {
+            text-align: center;
+            padding: 3rem 1rem 2rem;
+            position: relative;
+        }
+
+        h1 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 1rem;
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--lilás);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .moments-container {
+            padding: 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .moments-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            padding: 1rem;
+        }
+
+        .moment-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--sombra);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            aspect-ratio: 1/1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .moment-card:hover {
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .moment-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            text-align: center;
+            padding: 1.2rem;
+            background: linear-gradient(to right, var(--roxo-medio), var(--roxo-escuro));
+            text-transform: capitalize;
+            font-size: 1.1rem;
+            color: white;
+        }
+
+        .moment-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .moment-content::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, transparent 40%, rgba(255, 215, 0, 0.05) 100%);
+        }
+
+        .moment-content::after {
+            content: "+";
+            position: absolute;
+            font-size: 3rem;
+            font-weight: 200;
+            color: var(--destaque);
+            opacity: 0.3;
+            transition: all 0.4s ease;
+        }
+
+        .moment-content:hover::after {
+            transform: scale(1.3) rotate(90deg);
+            opacity: 0.6;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 3rem auto 2rem;
+            background: rgba(255, 215, 0, 0.2);
+            color: white;
+            padding: 0.8rem 1.8rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 1px solid var(--destaque);
+            font-family: 'Poppins', sans-serif;
+            backdrop-filter: blur(5px);
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 215, 0, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Efeito de brilho aleatório nos cards */
+        @keyframes randomGlow {
+            0%, 100% { box-shadow: 0 0 10px rgba(179, 153, 212, 0); }
+            50% { box-shadow: 0 0 20px rgba(179, 153, 212, 0.3); }
+        }
+
+        .moment-card:nth-child(3n+1) {
+            animation: randomGlow 8s infinite;
+        }
+        .moment-card:nth-child(3n+2) {
+            animation: randomGlow 10s infinite 2s;
+        }
+        .moment-card:nth-child(3n+3) {
+            animation: randomGlow 12s infinite 4s;
+        }
+
+        @media (max-width: 768px) {
+            .moments-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 1rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .moment-title {
+                padding: 1rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Corações flutuantes -->
+    <div class="floating-hearts" id="floating-hearts"></div>
+
+    <header>
+        <h1>Nossos Momentos Especiais</h1>
+        <p class="subtitle">Pra gnt adicionar memórias do nosso segundo ano de amor 😘</p>
+    </header>
+
+    <main class="moments-container">
+        <div class="moments-grid">
+            <!-- Praia -->
+            <div class="moment-card">
+                <div class="moment-title">Praia</div>
+                <div class="moment-content"></div>
+            </div>
+            
+            <!-- Show Matuê -->
+            <div class="moment-card">
+                <div class="moment-title">Show Matuê</div>
+                <div class="moment-content"></div>
+            </div>
+            
+            <!-- Show Luan -->
+            <div class="moment-card">
+                <div class="moment-title">Show Luan</div>
+                <div class="moment-content"></div>
+            </div>
+            
+            <!-- Dormida juntos -->
+            <div class="moment-card">
+                <div class="moment-title">Dormida juntos</div>
+                <div class="moment-content"></div>
+            </div>
+            
+            <!-- Aniversário -->
+            <div class="moment-card">
+                <div class="moment-title">Aniversário</div>
+                <div class="moment-content"></div>
+            </div>
+            
+            <!-- Piquenique -->
+            <div class="moment-card">
+                <div class="moment-title">Piquenique</div>
+                <div class="moment-content"></div>
+            </div>
+            
+            <!-- Passeio no parque -->
+            <div class="moment-card">
+                <div class="moment-title">Passeio no parque</div>
+                <div class="moment-content"></div>
+            </div>
+            
+            <!-- Jantar romântico -->
+            <div class="moment-card">
+                <div class="moment-title">Jantar romântico</div>
+                <div class="moment-content"></div>
+            </div>
+            
+            <!-- Rolê de bike -->
+            <div class="moment-card">
+                <div class="moment-title">Rolê de bike</div>
+                <div class="moment-content"></div>
+            </div>
+            
+            <!-- Churrasco -->
+            <div class="moment-card">
+                <div class="moment-title">Churrasco</div>
+                <div class="moment-content"></div>
+            </div>
+            
+            <!-- Caminhada à noite -->
+            <div class="moment-card">
+                <div class="moment-title">Caminhada à noite</div>
+                <div class="moment-content"></div>
+            </div>
+            
+            <!-- Café da manhã -->
+            <div class="moment-card">
+                <div class="moment-title">Café da manhã</div>
+                <div class="moment-content"></div>
+            </div>
+            
+            <!-- Encontro/Saída à noite -->
+            <div class="moment-card">
+                <div class="moment-title">Encontro/Saída à noite</div>
+                <div class="moment-content"></div>
+            </div>
+            
+            <!-- Festa de família -->
+            <div class="moment-card">
+                <div class="moment-title">Festa de família</div>
+                <div class="moment-content"></div>
+            </div>
+            
+            <!-- Lugar onde nos conhecemos -->
+            <div class="moment-card">
+                <div class="moment-title">Lugar onde nos conhecemos</div>
+                <div class="moment-content"></div>
+            </div>
+            
+            <!-- Frio + filme + pipoca -->
+            <div class="moment-card">
+                <div class="moment-title">Frio + filme + pipoca</div>
+                <div class="moment-content"></div>
+            </div>
+            
+            <!-- Passeio com pets -->
+            <div class="moment-card">
+                <div class="moment-title">Passeio com pets</div>
+                <div class="moment-content"></div>
+            </div>
+        </div>
+        
+        <div style="text-align: center;">
+            <a href="index.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i> Voltar para o site principal
+            </a>
+        </div>
+    </main>
+
+    <script>
+        // Criar corações flutuantes
+        function createHearts() {
+            const container = document.getElementById('floating-hearts');
+            const heartCount = 15;
+            
+            for (let i = 0; i < heartCount; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.width = (Math.random() * 20 + 15) + 'px';
+                heart.style.height = heart.style.width;
+                heart.style.animationDelay = Math.random() * 15 + 's';
+                heart.style.animationDuration = (Math.random() * 10 + 15) + 's';
+                
+                container.appendChild(heart);
+            }
+        }
+        
+        // Adiciona funcionalidade para os cards
+        document.querySelectorAll('.moment-content').forEach(card => {
+            card.addEventListener('click', function() {
+                const category = this.parentElement.querySelector('.moment-title').textContent;
+                
+                // Efeito visual ao clicar
+                this.style.background = 'rgba(255, 215, 0, 0.1)';
+                setTimeout(() => {
+                    this.style.background = '';
+                }, 300);
+                
+                // No futuro pode abrir um modal ou galeria
+                console.log(`Categoria clicada: ${category}`);
+            });
+        });
+
+        // Inicia tudo quando a página carregar
+        window.addEventListener('load', () => {
+            createHearts();
+        });
+    </script>
+</body>
+</html>
